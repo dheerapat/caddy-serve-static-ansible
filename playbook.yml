@@ -1,0 +1,27 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Update all dependency
+      dnf:
+        name: "*"
+        state: latest
+      become: true
+
+    - name: Enable Fedora Copr for caddy
+      command:
+        cmd: "dnf copr enable -y @caddy/caddy"
+        # creates parameter make this task idempotent
+        creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:group_caddy:caddy.repo
+      become: true
+
+    - name: Install caddy
+      dnf:
+        name: "caddy"
+        state: latest
+      become: true
+
+    - name: Copy file to host
+      copy:
+        src: example-app/dist
+        dest: ~/web

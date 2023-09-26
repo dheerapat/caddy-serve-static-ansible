@@ -1,0 +1,4 @@
+Vagrantfile
+svelte-app/*
+.vscode/*
+.vagrant/*
